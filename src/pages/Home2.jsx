@@ -489,31 +489,83 @@ const Home2 = () => {
       </section>
 
       {/* Consulting */}
-      <section>
-        <div className="flex flex-col md:flex-row items-center justify-between py-16 px-6 md:px-12 gap-10" style={{ backgroundColor: "var(--bg-color)", color: "var(--text-color)" }}>
-          <div className="md:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {t.consulting.leftCards.map(({ icon: Icon, title, desc }, i) => (
-              <motion.div key={i}
-                whileHover={{ scale: 1.05, rotate: i % 2 === 0 ? 1 : -1 }} whileTap={{ scale: 0.97 }}
-                className="p-6 rounded-xl cursor-pointer transition-shadow text-center"
-                style={{ backgroundColor: "var(--card-bg)", boxShadow: "var(--shadow)" }}>
-                <Icon className="mx-auto mb-4" style={{ color: "var(--primary-color)", fontSize: "1.875rem", animation: "bounce 2s infinite" }} />
-                <h4 className="mb-2 font-semibold text-lg" style={{ color: "var(--heading-color)" }}>{title}</h4>
-                <p className="text-sm" style={{ color: "var(--text-muted)" }}>{desc}</p>
-              </motion.div>
-            ))}
-          </div>
-          <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }} viewport={{ once: true }}
-            className="md:w-1/2 space-y-6 text-center md:text-left" style={{ color: "var(--text-color)" }}>
-            <h2 className="text-3xl font-bold" style={{ color: "var(--heading-color)" }}>
-              {t.consulting.heading}<span style={{ color: "var(--primary-color)" }}>{t.consulting.colored}</span>
-            </h2>
-            <p style={{ color: "var(--text-muted)" }}>{t.consulting.desc}</p>
-            <Link to="/about" className="inline-block bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-800 text-white font-semibold px-6 py-3 rounded-full shadow-lg transition transform motion-safe:hover:scale-105 motion-safe:active:scale-95">{t.consulting.knowMore}</Link>
-          </motion.div>
-        </div>
-      </section>
+<section>
+  <div
+    className="flex flex-col md:flex-col lg:flex-row items-center justify-between py-16 px-4 sm:px-8 md:px-12 gap-12"
+    style={{ backgroundColor: "var(--bg-color)", color: "var(--text-color)" }}
+  >
+    {/* Cards Grid */}
+    <div className="w-full lg:w-1/2 order-1 md:order-1 lg:order-1 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-8 mb-8 lg:mb-0">
+      {t.consulting.leftCards.map(({ icon: Icon, title, desc }, i) => (
+        <motion.div
+          key={i}
+          whileHover={{ scale: 1.05, rotate: i % 2 === 0 ? 1 : -1 }}
+          whileTap={{ scale: 0.97 }}
+          className="p-6 rounded-xl cursor-pointer transition-shadow text-center sm:text-left h-full flex flex-col"
+          style={{ backgroundColor: "var(--card-bg)", boxShadow: "var(--shadow)" }}
+        >
+          <Icon
+            className="mx-auto sm:mx-0 mb-4"
+            style={{
+              color: "var(--primary-color)",
+              fontSize: "1.875rem",
+              animation: "bounce 2s infinite",
+            }}
+          />
+          <h4
+            className="mb-2 font-semibold text-lg"
+            style={{ color: "var(--heading-color)" }}
+          >
+            {title}
+          </h4>
+          <p
+            className="text-sm"
+            style={{
+              color: "var(--text-muted)",
+              textAlign: "justify",
+            }}
+          >
+            {desc}
+          </p>
+        </motion.div>
+      ))}
+    </div>
+
+    {/* Text Content */}
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      viewport={{ once: true }}
+      className="w-full lg:w-1/2 flex flex-col justify-center space-y-6 text-center lg:text-left order-2 md:order-2 lg:order-2"
+      style={{ color: "var(--text-color)" }}
+    >
+      <h2
+        className="text-3xl font-bold"
+        style={{ color: "var(--heading-color)" }}
+      >
+        {t.consulting.heading}
+        <span style={{ color: "var(--primary-color)" }}>{t.consulting.colored}</span>
+      </h2>
+      <p
+        style={{
+          color: "var(--text-muted)",
+          textAlign: "justify",
+        }}
+      >
+        {t.consulting.desc}
+      </p>
+      <Link
+        to="/about"
+        className="inline-block bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-800 text-white font-semibold px-6 py-3 rounded-full shadow-lg transition transform motion-safe:hover:scale-105 motion-safe:active:scale-95 mx-auto lg:mx-0"
+      >
+        {t.consulting.knowMore}
+      </Link>
+    </motion.div>
+  </div>
+</section>
+
+
 
       {/* Events + Filters */}
       <section className="upcoming-events-section" style={{ width: '100%', background: 'var(--primary-color)', padding: '36px 0', color: 'var(--text-primary)' }}>
@@ -631,35 +683,6 @@ const Home2 = () => {
       </section>
   
 
-
-     
-      {/* CTA Section */}
-      <section className="cta-section">
-        <div className="cta-overlay">
-          <div className="container">
-            <motion.div
-              className="cta-content text-center"
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <h2>Ready to Transform Your Business?</h2>
-              <p>
-                Get started today with a free consultation and discover how we can help you achieve your goals.
-              </p>
-              <div className="cta-buttons">
-                <Link to="/contact" className="btn btn-primary btn-large">
-                  Start Your Journey <FaArrowRight />
-                </Link>
-                <Link to="/about" className="btn btn-outline btn-large">
-                  Learn More About Us
-                </Link>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
 
       <style jsx>{`
         .home2-page {

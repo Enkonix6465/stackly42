@@ -416,51 +416,52 @@ const Home1 = () => {
           </div>
         </div>
       </section>
-      {/* Three Column Section */}
-      <style>{`
-        @keyframes float-card {
-          0% { transform: translateY(0); }
-          50% { transform: translateY(-12px); }
-          100% { transform: translateY(0); }
-        }
-        .animate-float-card {
-          animation: float-card 3.5s ease-in-out infinite;
-        }
-      `}</style>
-      <section className="w-full py-16 md:py-24 bg-[var(--bg-color)] flex items-center justify-center transition-colors duration-300">
-        <div className="max-w-6xl w-full flex flex-col md:flex-row items-center justify-between gap-8 md:gap-16 px-4">
-          {/* Left Floating Image */}
-          <div className="w-full md:flex-1 flex justify-center mb-8 md:mb-0">
-            <div className="bg-[var(--sidebar-bg)] rounded-2xl shadow-[0_10px_40px_rgba(30,64,175,0.18),0_1.5px_6px_rgba(0,0,0,0.17)] p-2 transition-transform duration-500 hover:-translate-y-4 hover:scale-105 relative animate-float-card">
-              <img
-                src="images/it1.jpg"
-                alt={t.threeColCenter.leftAlt}
-                className="rounded-2xl object-cover w-full max-w-xs h-40 md:w-[260px] md:h-[180px] shadow-md"
-              />
-            </div>
-          </div>
-          {/* Center Card */}
-          <div className="w-full md:max-w-md flex flex-col items-center justify-center px-5 py-8 md:px-9 md:py-12 bg-[var(--card-bg)] rounded-2xl shadow-2xl text-center mx-0 md:mx-4 mb-8 md:mb-0">
-            <span className="inline-block w-3 h-3 rotate-45 bg-[var(--primary-color)] mb-5"></span>
-            <h2 className="text-xl md:text-2xl font-semibold text-[var(--heading-color)] mb-6">
-              {t.threeColCenter.centerTitle}
-            </h2>
-            <p className="text-xs md:text-sm text-[var(--text-muted)] leading-relaxed text-justify">
-              {t.threeColCenter.centerParagraph}
-            </p>
-          </div>
-          {/* Right Floating Image */}
-          <div className="w-full md:flex-1 flex justify-center">
-            <div className="bg-[var(--sidebar-bg)] rounded-2xl shadow-[0_10px_40px_rgba(30,64,175,0.18),0_1.5px_6px_rgba(0,0,0,0.17)] p-2 transition-transform duration-500 hover:-translate-y-4 hover:scale-105 relative animate-float-card">
-              <img
-                src="images/it2.jpg"
-                alt={t.threeColCenter.rightAlt}
-                className="rounded-2xl object-cover w-full max-w-xs h-40 md:w-[260px] md:h-[180px] shadow-md"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+
+     <style>{`
+  @keyframes float-card {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+    100% { transform: translateY(0); }
+  }
+  .animate-float-card {
+    animation: float-card 3.5s ease-in-out infinite;
+  }
+`}</style>
+<section className="w-full py-10 sm:py-14 md:py-24 bg-[var(--bg-color)] flex items-center justify-center transition-colors duration-300">
+  <div className="max-w-4xl w-full flex flex-col gap-7 sm:gap-10 md:flex-row md:gap-12 px-2 md:px-4">
+    {/* Top image (mobile/tablet)/Left image (desktop) */}
+    <div className="flex justify-center md:justify-start md:flex-1">
+      <div className="bg-[var(--sidebar-bg)] rounded-2xl shadow-[0_10px_40px_rgba(30,64,175,0.18),0_1.5px_6px_rgba(0,0,0,0.17)] p-1 md:p-2 transition-transform duration-500 hover:-translate-y-4 hover:scale-105 relative animate-float-card md:mb-0 mb-0 w-[85vw] max-w-xs md:max-w-[260px]">
+        <img
+          src="images/it1.jpg"
+          alt={t.threeColCenter.leftAlt}
+          className="rounded-2xl object-cover w-full h-36 sm:h-40 md:w-[260px] md:h-[180px] shadow-md"
+        />
+      </div>
+    </div>
+    {/* Center card */}
+    <div className="w-full md:max-w-md flex flex-col items-center justify-center bg-[var(--card-bg)] rounded-2xl shadow-2xl px-4 py-8 sm:px-6 md:px-9 md:py-12 text-center mx-0 md:mx-4">
+      <span className="inline-block w-3 h-3 rotate-45 bg-[var(--primary-color)] mb-4 sm:mb-5"></span>
+      <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-[var(--heading-color)] mb-4 sm:mb-6">
+        {t.threeColCenter.centerTitle}
+      </h2>
+      <p className="text-sm sm:text-xs md:text-sm text-[var(--text-muted)] leading-relaxed text-center">
+        {t.threeColCenter.centerParagraph}
+      </p>
+    </div>
+    {/* Bottom image (mobile/tablet)/Right image (desktop) */}
+    <div className="flex justify-center md:justify-end md:flex-1">
+      <div className="bg-[var(--sidebar-bg)] rounded-2xl shadow-[0_10px_40px_rgba(30,64,175,0.18),0_1.5px_6px_rgba(0,0,0,0.17)] p-1 md:p-2 transition-transform duration-500 hover:-translate-y-4 hover:scale-105 relative animate-float-card w-[85vw] max-w-xs md:max-w-[260px]">
+        <img
+          src="images/it2.jpg"
+          alt={t.threeColCenter.rightAlt}
+          className="rounded-2xl object-cover w-full h-36 sm:h-40 md:w-[260px] md:h-[180px] shadow-md"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
       {/* Services Section */}
       <section className="section-preview">
         <div className="container">

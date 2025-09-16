@@ -802,6 +802,36 @@ const Service1 = () => {
     transform: scale(1.03);
   }
 
+
+  @media (max-width: 600px) {
+  .gallery-row,
+  .gallery-row.reverse {
+    flex-direction: column !important; /* Stack big image above grid */
+    gap: 200px;
+  }
+
+  .gallery-big {
+    width: 100%;
+    height: 200px;
+    margin-top: 16px; /* Adds gap above big image on mobile */
+  }
+
+  .gallery-grid {
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .gallery-grid img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+  }
+}
+
+
   /* Responsive */
   @media (max-width: 992px) {
     .gallery-row,

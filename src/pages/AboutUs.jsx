@@ -534,69 +534,63 @@ const AboutUs = () => {
       </section>
 
       {/* What We Do Steps */}
-      <section className="py-20 bg-gradient-to-r from-[var(--bg-color)] to-[var(--input-bg)] transition-colors duration-500">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <motion.h2
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl font-bold text-[var(--heading-color)] mb-4"
+    <section className="py-20 bg-gradient-to-r from-[var(--bg-color)] to-[var(--input-bg)] transition-colors duration-500">
+  <div className="max-w-6xl mx-auto px-6 text-center">
+    <motion.h2
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className="text-4xl font-bold text-[var(--heading-color)] mb-4"
+    >
+      {t.whatWeDo.heading}
+    </motion.h2>
+    <p className="text-lg text-[var(--text-muted)] mb-16 text-justify">{t.whatWeDo.paragraph}</p>
+    <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-16 gap-y-14 items-stretch justify-items-center">
+      {t.whatWeDo.steps.map((step, idx) => (
+        <motion.div
+          key={step.id}
+          className={`relative flex flex-col items-center text-center max-w-xs w-full mx-auto cursor-pointer transition-all duration-500 ${
+            activeStep === idx ? "scale-110 text-[var(--primary-color)] z-10" : "opacity-70"
+          }`}
+          onMouseEnter={() => setActiveStep(idx)}
+        >
+          <motion.div
+            className="w-16 h-16 rounded-full flex items-center justify-center shadow-xl bg-[var(--card-bg)] mb-4"
+            animate={{
+              scale: activeStep === idx ? [1, 1.1, 1] : 1,
+            }}
+            transition={{ repeat: activeStep === idx ? Infinity : 0, duration: 1.5 }}
           >
-            {t.whatWeDo.heading}
-          </motion.h2>
-          <p className="text-lg text-[var(--text-muted)] mb-16 text-justify">{t.whatWeDo.paragraph}</p>
-          <div className="relative flex flex-col md:flex-row md:justify-between items-center">
-            {t.whatWeDo.steps.map((step, idx) => (
-              <motion.div
-                key={step.id}
-                className={`relative flex flex-col items-center text-center max-w-sm mb-10 md:mb-0 cursor-pointer transition-all duration-500 ${
-                  activeStep === idx ? "scale-110 text-[var(--primary-color)]" : "opacity-70"
-                }`}
-                onMouseEnter={() => setActiveStep(idx)}
-              >
-                <motion.div
-                  className="w-16 h-16 rounded-full flex items-center justify-center shadow-xl bg-[var(--card-bg)] mb-4"
-                  animate={{
-                    scale: activeStep === idx ? [1, 1.1, 1] : 1,
-                  }}
-                  transition={{ repeat: activeStep === idx ? Infinity : 0, duration: 1.5 }}
-                >
-                  {(() => {
-                    switch (step.id) {
-                      case 1:
-                        return <FaSearch className="text-3xl text-[var(--primary-color)]" />;
-                      case 2:
-                        return <FaProjectDiagram className="text-3xl text-[var(--primary-color)]" />;
-                      case 3:
-                        return <FaCogs className="text-3xl text-[var(--primary-color)]" />;
-                      case 4:
-                        return <FaHeadset className="text-3xl text-[var(--primary-color)]" />;
-                      default:
-                        return null;
-                    }
-                  })()}
-                </motion.div>
-                <h3
-                  className={`text-xl font-semibold ${
-                    activeStep === idx ? "text-[var(--primary-color)]" : "text-[var(--heading-color)]"
-                  }`}
-                >
-                  {step.title}
-                </h3>
-                <p className="text-[var(--text-muted)] mt-2 max-w-[16rem] text-justify">{step.desc}</p>
-                {idx < t.whatWeDo.steps.length - 1 && (
-                  <motion.div
-                    className="hidden md:block absolute top-8 left-full w-24 h-1 bg-[var(--primary-color)] bg-opacity-20"
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: activeStep >= idx ? 1 : 0 }}
-                    transition={{ duration: 0.8 }}
-                  />
-                )}
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+            {(() => {
+              switch (step.id) {
+                case 1:
+                  return <FaSearch className="text-3xl text-[var(--primary-color)]" />;
+                case 2:
+                  return <FaProjectDiagram className="text-3xl text-[var(--primary-color)]" />;
+                case 3:
+                  return <FaCogs className="text-3xl text-[var(--primary-color)]" />;
+                case 4:
+                  return <FaHeadset className="text-3xl text-[var(--primary-color)]" />;
+                default:
+                  return null;
+              }
+            })()}
+          </motion.div>
+          <h3
+            className={`text-xl font-semibold ${
+              activeStep === idx ? "text-[var(--primary-color)]" : "text-[var(--heading-color)]"
+            }`}
+          >
+            {step.title}
+          </h3>
+          <p className="text-[var(--text-muted)] mt-2 max-w-[16rem] text-justify">{step.desc}</p>
+          {/* Hide step-connector lines on mobile and tablet */}
+        </motion.div>
+      ))}
+    </div>
+  </div>
+</section>
+
 
       {/* IT Services Cards */}
       <section className="py-16 bg-[var(--input-bg)]">
@@ -1132,23 +1126,31 @@ const AboutUs = () => {
   padding: 0;
   position: relative;
   cursor: pointer;
+  width: 100%;
+  max-width: 390px;
+  margin: 0 auto;
 }
 
+/* Responsive aspect-ratio for images */
 .leader-image {
   position: relative;
   width: 100%;
-  height: 330px;
+  aspect-ratio: 4/3;           /* Use 4:3 landscape for best visibility */
   overflow: hidden;
   border-radius: 18px;
   box-shadow: var(--shadow);
   transition: box-shadow 0.25s;
+  background: #eaeaea;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .leader-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top center;
+  object-position: center;
   display: block;
   border-radius: 18px;
   filter: brightness(0.97);
@@ -1192,7 +1194,6 @@ const AboutUs = () => {
   margin: 0 0 7px 0;
   font-weight: 700;
 }
-
 .leader-overlay .team-role {
   color: #fff;
   font-size: 1.05rem;
@@ -1200,21 +1201,18 @@ const AboutUs = () => {
   margin-bottom: 6px;
   display: block;
 }
-
 .leader-overlay .team-bio {
   color: #fff;
   font-size: 0.98rem;
   margin: 7px 0 21px 0;
   line-height: 1.6;
 }
-
 .team-social {
   display: flex;
   justify-content: center;
   gap: 13px;
   margin-top: 10px;
 }
-
 .team-social a {
   color: #fff;
   background: rgba(0, 0, 0, 0.18);
@@ -1227,7 +1225,6 @@ const AboutUs = () => {
   font-size: 1.26rem;
   transition: background 0.18s, color 0.18s;
 }
-
 .team-social a:hover {
   background: var(--primary-color, #0b5e2b);
   color: #fff;
@@ -1235,94 +1232,41 @@ const AboutUs = () => {
 
 /* ========== TABLET (≤1024px) ========== */
 @media (max-width: 1024px) {
-  .team-section {
-    padding: 30px 0;
-  }
-
+  .team-section { padding: 30px 0; }
   .team-grid {
     gap: 20px;
+    grid-template-columns: repeat(2, 1fr) !important; /* Force two per row */
   }
+  .leader-card { max-width: 340px; }
+}
 
-  .leader-image {
-    height: 280px;
-  }
 
-  .leader-overlay h4 {
-    font-size: 1.15rem;
-  }
-
-  .leader-overlay .team-role {
-    font-size: 1rem;
-  }
-
-  .leader-overlay .team-bio {
-    font-size: 0.95rem;
-  }
+@media (max-width: 900px) {
+  .team-grid { gap: 16px; }
+  .leader-card { max-width: 97vw; }
 }
 
 /* ========== MOBILE (≤768px) ========== */
 @media (max-width: 768px) {
-  .team-section {
-    padding: 20px 0;
-  }
-
-  .team-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .leader-image {
-    height: 250px;
-    border-radius: 14px;
-  }
-
-  .leader-overlay-content {
-    padding: 0 10px;
-  }
-
-  .leader-overlay h4 {
-    font-size: 1.1rem;
-  }
-
-  .leader-overlay .team-role {
-    font-size: 0.95rem;
-  }
-
-  .leader-overlay .team-bio {
-    font-size: 0.9rem;
-    line-height: 1.5;
-  }
-
-  .team-social a {
-    width: 34px;
-    height: 34px;
-    font-size: 1.1rem;
-  }
+  .team-section { padding: 20px 0; }
+  .team-grid { grid-template-columns: 1fr; gap: 18px; }
+  .leader-card { max-width: 99vw; }
+  .leader-image { border-radius: 14px; aspect-ratio: 4/3; }
+  .leader-overlay-content { padding: 0 10px; }
+  .leader-overlay h4 { font-size: 1.1rem; }
+  .leader-overlay .team-role { font-size: 0.95rem; }
+  .leader-overlay .team-bio { font-size: 0.9rem; line-height: 1.5; }
+  .team-social a { width: 34px; height: 34px; font-size: 1.1rem; }
 }
 
 /* ========== SMALL MOBILE (≤480px) ========== */
 @media (max-width: 480px) {
-  .leader-image {
-    height: 220px;
-  }
-
-  .leader-overlay h4 {
-    font-size: 1rem;
-  }
-
-  .leader-overlay .team-role {
-    font-size: 0.88rem;
-  }
-
-  .leader-overlay .team-bio {
-    font-size: 0.85rem;
-  }
-
-  .team-social a {
-    width: 30px;
-    height: 30px;
-    font-size: 1rem;
-  }
+  .leader-card { max-width: 100vw; }
+  .leader-image { border-radius: 9px; aspect-ratio: 1; }
+  .leader-overlay h4 { font-size: 1rem; }
+  .leader-overlay .team-role { font-size: 0.88rem; }
+  .leader-overlay .team-bio { font-size: 0.85rem; }
+  .team-social a { width: 30px; height: 30px; font-size: 1rem; }
 }
 
 

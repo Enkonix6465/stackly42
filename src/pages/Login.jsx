@@ -119,7 +119,7 @@ const LANG_OPTIONS = [
   { value: 'he', label: 'עברית' }
 ];
 
-const EyeSVG = ({ hidden }) => (
+const EyeSVG = ({ hidden }) =>
   hidden ? (
     <svg height="24" width="24" viewBox="0 0 22 22" fill="none" aria-hidden="true">
       <rect x="2" y="2" width="18" height="18" rx="4"
@@ -134,29 +134,31 @@ const EyeSVG = ({ hidden }) => (
       <ellipse cx="11" cy="11" rx="5" ry="5" stroke="#10a4ff" strokeWidth="2" />
       <circle cx="11" cy="11" r="1.7" fill="#10a4ff" />
     </svg>
-  )
-);
+  );
 
 const LangDropdown = ({ language, setLanguage, dir }) => (
-  <div style={{
-    position: 'fixed',
-    top: 16,
-    right: dir === 'ltr' ? 16 : 'auto',
-    left: dir === 'rtl' ? 16 : 'auto',
-    zIndex: 2000,
-    display: 'flex',
-    alignItems: 'center',
-    gap: 6,
-    flexDirection: dir === 'rtl' ? 'row-reverse' : 'row',
-    background: 'rgba(0,0,0,0.3)',
-    borderRadius: '6px',
-    padding: '2px 8px',
-    color: '#fff',
-    fontWeight: '600',
-    fontSize: '14px',
-    userSelect: 'none'
-  }}>
-    <label htmlFor="lang-select">{dir === 'rtl' ? 'اللغة' : dir === 'he' ? 'שפה' : 'Language'}:</label>
+  <div
+    className="lang-dropdown-fix"
+    style={{
+      position: 'absolute',
+      top: 70,
+      [dir === 'rtl' ? 'left' : 'right']: 23,
+      zIndex: 2103,
+      display: 'flex',
+      alignItems: 'center',
+      gap: 6,
+      flexDirection: dir === 'rtl' ? 'row-reverse' : 'row',
+      background: 'rgba(0,0,0,0.3)',
+      borderRadius: '6px',
+      padding: '2px 9px',
+      color: '#fff',
+      fontWeight: 600,
+      fontSize: 14,
+      userSelect: 'none'
+    }}>
+    <label htmlFor="lang-select" style={{ marginLeft: dir === 'rtl' ? 0 : 3, marginRight: dir === 'rtl' ? 3 : 0 }}>
+      {dir === 'rtl' ? 'اللغة' : dir === 'he' ? 'שפה' : 'Language'}:
+    </label>
     <select
       id="lang-select"
       value={language}
@@ -165,11 +167,11 @@ const LangDropdown = ({ language, setLanguage, dir }) => (
       style={{
         cursor: 'pointer',
         borderRadius: '3px',
-        padding: '2px 6px',
+        padding: '2px 7px',
         border: 'none',
         outline: 'none',
-        fontWeight: '600',
-        fontSize: '14px',
+        fontWeight: 600,
+        fontSize: 14,
         background: 'rgba(255,255,255,0.9)',
         color: '#000',
         direction: 'ltr'
@@ -177,6 +179,23 @@ const LangDropdown = ({ language, setLanguage, dir }) => (
     >
       {LANG_OPTIONS.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
     </select>
+    <style>{`
+      @media (max-width: 600px) {
+        .lang-dropdown-fix {
+          top: 72px !important;
+          right: 16px !important;
+          left: unset !important;
+        }
+      }
+      @media (max-width: 430px) {
+        .lang-dropdown-fix {
+          top: 68px !important;
+          right: 8px !important;
+          left: unset !important;
+          font-size: 12px !important;
+        }
+      }
+    `}</style>
   </div>
 );
 
@@ -316,15 +335,44 @@ const Login = () => {
   };
 
   return (
-    <div className={`glass-login-bg ${dir === 'rtl' ? 'rtl' : ''}`} style={{direction: dir}}>
-      <LangDropdown language={language} setLanguage={setLanguage} dir={dir} label={translations[language].languageLabel} />
-
+    <div
+      className={`glass-login-bg ${dir === 'rtl' ? 'rtl' : ''}`}
+      style={{ direction: dir, position: 'relative' }}
+    >
+      {/* Logo */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 18,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 2102,
+          background: '#fff',
+          borderRadius: '18px',
+          padding: '4px 24px 4px 24px',
+          minWidth: 100,
+          boxShadow: '0 4px 16px #21489908',
+          display: 'flex',
+          alignItems: 'center'
+        }}>
+        <img
+          src="images/logo.png"
+          alt="Stackly Logo"
+          style={{
+            height: 37,
+            width: 'auto',
+            objectFit: 'contain',
+            display: 'block'
+          }}
+        />
+      </div>
+      {/* Language Picker */}
+      <LangDropdown language={language} setLanguage={setLanguage} dir={dir} />
       <motion.div
         className={`glass-login-card${showSignup && !showForgot ? " signup-active" : ""}`}
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
+        transition={{ duration: 0.8 }}>
         <div className="form-container">
           {error && (
             <motion.div
@@ -351,11 +399,12 @@ const Login = () => {
                     onChange={(e) => setLoginEmail(e.target.value)}
                     placeholder={translations[language].emailAddress}
                     required
+                    style={{ direction: dir }}
                   />
                 </div>
                 <div className="form-group">
                   <label htmlFor="loginPassword">{translations[language].password}</label>
-                  <div style={{position:'relative'}}>
+                  <div style={{ position: 'relative' }}>
                     <input
                       id="loginPassword"
                       type={showPassword ? "text" : "password"}
@@ -364,6 +413,7 @@ const Login = () => {
                       onChange={(e) => setLoginPassword(e.target.value)}
                       placeholder={translations[language].password}
                       required
+                      style={{ direction: dir }}
                     />
                     <button
                       type="button"
@@ -371,19 +421,23 @@ const Login = () => {
                       onClick={() => setShowPassword(!showPassword)}
                       aria-label={showPassword ? translations[language].hidePassword : translations[language].showPassword}
                       tabIndex="-1"
+                      style={{
+                        right: dir === 'rtl' ? 'auto' : 7,
+                        left: dir === 'rtl' ? 7 : 'auto'
+                      }}
                     >
                       <EyeSVG hidden={showPassword} />
                     </button>
                   </div>
                 </div>
-                <div className="form-options">
+                <div className="form-options" style={{ textAlign: dir === 'rtl' ? 'left' : 'right' }}>
                   <button
                     type="button"
                     className="forgot-link"
                     onClick={() => {
                       setError('');
                       setShowForgot(true);
-                  }}
+                    }}
                   >
                     {translations[language].forgotPassword}
                   </button>
@@ -397,7 +451,7 @@ const Login = () => {
                   {translations[language].loginBtn}
                 </motion.button>
               </form>
-              <div className="signup-link" style={{ direction: dir }}>
+              <div className="signup-link" style={{ direction: dir, textAlign: dir === 'rtl' ? 'left' : 'right' }}>
                 {translations[language].dontHaveAccount}&nbsp;
                 <button
                   type="button"
@@ -429,6 +483,7 @@ const Login = () => {
                     value={signupData.firstName}
                     onChange={(e) => setSignupData({ ...signupData, firstName: e.target.value })}
                     required
+                    style={{ direction: dir }}
                   />
                 </div>
                 <div className="form-group">
@@ -440,6 +495,7 @@ const Login = () => {
                     value={signupData.lastName}
                     onChange={(e) => setSignupData({ ...signupData, lastName: e.target.value })}
                     required
+                    style={{ direction: dir }}
                   />
                 </div>
                 <div className="form-group">
@@ -451,6 +507,7 @@ const Login = () => {
                     value={signupData.email}
                     onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
                     required
+                    style={{ direction: dir }}
                   />
                 </div>
                 <div className="form-group">
@@ -462,6 +519,7 @@ const Login = () => {
                     value={signupData.phone}
                     onChange={(e) => setSignupData({ ...signupData, phone: e.target.value })}
                     required
+                    style={{ direction: dir }}
                   />
                 </div>
                 <div className="form-group">
@@ -473,6 +531,7 @@ const Login = () => {
                     value={signupData.password}
                     onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
                     required
+                    style={{ direction: dir }}
                   />
                 </div>
                 <div className="form-group">
@@ -484,6 +543,7 @@ const Login = () => {
                     value={signupData.confirmPassword}
                     onChange={(e) => setSignupData({ ...signupData, confirmPassword: e.target.value })}
                     required
+                    style={{ direction: dir }}
                   />
                 </div>
                 <motion.button
@@ -495,7 +555,7 @@ const Login = () => {
                   {translations[language].signupBtn}
                 </motion.button>
               </form>
-              <div className="signup-link" style={{ direction: dir }}>
+              <div className="signup-link" style={{ direction: dir, textAlign: dir === 'rtl' ? 'left' : 'right' }}>
                 {translations[language].alreadyAccount}&nbsp;
                 <button
                   type="button"
@@ -528,6 +588,7 @@ const Login = () => {
                     onChange={(e) => setForgotEmail(e.target.value)}
                     required
                     disabled={forgotStep === 2}
+                    style={{ direction: dir }}
                   />
                 </div>
                 {forgotStep === 1 && (
@@ -551,6 +612,7 @@ const Login = () => {
                         value={forgotPassword}
                         onChange={(e) => setForgotPassword(e.target.value)}
                         required
+                        style={{ direction: dir }}
                       />
                     </div>
                     <div className="form-group">
@@ -562,6 +624,7 @@ const Login = () => {
                         value={forgotConfirm}
                         onChange={(e) => setForgotConfirm(e.target.value)}
                         required
+                        style={{ direction: dir }}
                       />
                     </div>
                     <motion.button
@@ -592,150 +655,154 @@ const Login = () => {
             </>
           )}
         </div>
-        {/* All your styles remain unchanged here */}
         <style>{`
-          /* Keep your existing styles */
+        .glass-login-bg {
+          min-height: 100vh;
+          background: radial-gradient(circle at 60% 15%, #1849b9 0%, #223953 50%, #0f121b 100%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          overflow: hidden;
+        }
+        .glass-login-card {
+          background: rgba(28, 39, 60, 0.75);
+          border-radius: 28px;
+          box-shadow: 0 0 56px 12px #2798ee44, 0 0 24px #11d0fa30;
+          padding: 30px 15px 18px 15px;
+          max-width: 400px;
+          min-width: 300px;
+          width: 100%;
+          margin: auto;
+          backdrop-filter: blur(18px) saturate(145%);
+          border: 2.1px solid #14cdff49;
+        }
+        .glass-login-card.signup-active {
+          padding: 18px 10px 10px 10px;
+          max-width: 510px;
+           padding-top: 0px;
+        }
+        .signup-header-main {
+          font-size: 2.3rem;
+          font-weight: 900;
+          color: #eaf8ff;
+          text-align: center;
+          letter-spacing: 0.5px;
+          margin-top: 0;
+          font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+          margin-bottom: 2px;
+        }
+        .signup-header-sub {
+          color: #aad9ff;
+          font-size: 1.14rem;
+          font-weight: 400;
+          text-align: center;
+          margin-bottom: 16px;
+          margin-top: 0;
+          letter-spacing: 0.04em;
+        }
+        .signup-form .form-group { margin-bottom: 7px; }
+        .signup-form { padding-bottom: 4px; }
+        @media (max-width: 530px) {
+          .signup-header-main { font-size: 1.38rem; }
+          .signup-header-sub { font-size: 0.89rem; }
+        }
+        .form-header h2 { color: #eaf8ff; text-align: center; font-size: 2.2rem; font-weight: 800; margin-bottom: 8px;}
+        .form-header p { color: #77d7fc; text-align: center; margin-bottom: 16px; font-size: 1.08rem;}
+        .form-group { margin-bottom: 10px;}
+        .form-group label { color: #b2e7ff; font-size: 0.96rem; margin-bottom: 5px; font-weight: 500;}
+        .form-control {
+          width: 100%;
+          padding: 6.2px 11px;
+          font-size: 0.97rem;
+          border-radius: 8px;
+          background: rgba(33, 70, 120, 0.14);
+          color: #e6f4ff;
+          border: 1.07px solid #0abaff35;
+          box-sizing: border-box;
+        }
+        .form-control:focus {
+          border-color: #18d8fd;
+          background: rgba(75, 205, 255, 0.09);
+        }
+        .glass-login-field { margin-bottom: 12px; }
+        .glass-password-toggle {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          background: none;
+          border: none;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 32px;
+          height: 32px;
+          border-radius: 7px;
+          box-shadow: 0 0 6px #12b3ff38, 0 1.5px 7px #20e8ff25;
+          transition: box-shadow 0.2s, border-color 0.18s;
+        }
+        .glass-password-toggle:focus { outline: 2px solid #12b3ff; }
+        .glass-password-toggle svg { display: block; }
+        .btn, .btn-primary, .btn-block {
+          width: 100%;
+          font-family: inherit;
+          font-size: 0.98rem;
+          font-weight: 700;
+          border: none;
+          outline: none;
+          cursor: pointer;
+          border-radius: 10px;
+          padding: 8.5px 0 7px 0;
+          background: linear-gradient(98deg, #26acff 5%, #3745f3 100%);
+          color: #f6feff;
+          box-shadow: 0 1px 7px #18c8ff33, 0 0 3px #2b5cff35;
+          letter-spacing: 1.1px;
+          margin-top: 10px;
+          transition: background 0.13s, box-shadow 0.11s, filter 0.13s;
+          position: relative;
+          z-index: 1;
+        }
+        .btn + .btn, .btn-block + .btn-block, .btn-primary + .btn-primary {
+          margin-top: 7px;
+        }
+        .btn:hover, .btn-primary:hover, .btn-block:hover {
+          background: linear-gradient(92deg, #35c5ff 0%, #2940e6 100%);
+          filter: brightness(1.055);
+          box-shadow: 0 5px 18px #17e3ff40, 0 0 12px #2b5cff77;
+        }
+        .btn:active, .btn-primary:active, .btn-block:active {
+          filter: brightness(0.98);
+          box-shadow: 0 2px 8px #008cff45;
+        }
+        .signup-link, .form-header p { color: #b2e7ff; }
+        .inline-link, .forgot-link {
+          background: none; border: none; color: #1ee1ff; text-decoration: underline; font-weight: 700; cursor: pointer; transition: color 0.16s;
+        }
+        .inline-link:hover, .forgot-link:hover { color: #eafdff; }
+        .error-message {
+          background: rgba(36, 0, 38, 0.65);
+          color: #fe4a7a;
+          border: 1px solid #fe4a7a55;
+          border-radius: 10px;
+          padding: 9px 14px;
+          margin-bottom: 8px;
+          text-align: center;
+        }
+        @media (max-width: 530px) {
+          .glass-login-card { padding: 11px 2.5vw 9px 2.5vw; min-width: 0; border-radius: 14px; }
+          .form-header h2 { font-size: 1.23rem;}
+          .form-header p { font-size: .93rem; }
+        }
+        @media (max-width: 600px) {
           .glass-login-bg {
-            min-height: 100vh;
-            background: radial-gradient(circle at 60% 15%, #1849b9 0%, #223953 50%, #0f121b 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            align-items: flex-start !important;
           }
-          .glass-login-card {
-            background: rgba(28, 39, 60, 0.75);
-            border-radius: 28px;
-            box-shadow: 0 0 56px 12px #2798ee44, 0 0 24px #11d0fa30;
-            padding: 30px 15px 18px 15px;
-            max-width: 400px;
-            min-width: 300px;
-            width: 100%;
-            margin: auto;
-            backdrop-filter: blur(18px) saturate(145%);
-            border: 2.1px solid #14cdff49;
-          }
-          .glass-login-card.signup-active {
-            padding: 18px 10px 10px 10px;
-            max-width: 510px;
-          }
-          .signup-header-main {
-            font-size: 2.3rem;
-            font-weight: 900;
-            color: #eaf8ff;
-            text-align: center;
-            letter-spacing: 0.5px;
-            margin-top: 0;
-            font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
-            margin-bottom: 2px;
-          }
-          .signup-header-sub {
-            color: #aad9ff;
-            font-size: 1.14rem;
-            font-weight: 400;
-            text-align: center;
-            margin-bottom: 16px;
-            margin-top: 0;
-            letter-spacing: 0.04em;
-          }
-          .signup-form .form-group { margin-bottom: 7px; }
-          .signup-form { padding-bottom: 4px; }
-          @media (max-width: 530px) {
-            .signup-header-main { font-size: 1.38rem; }
-            .signup-header-sub { font-size: 0.89rem; }
-          }
-          .form-header h2 { color: #eaf8ff; text-align: center; font-size: 2.2rem; font-weight: 800; margin-bottom: 8px;}
-          .form-header p { color: #77d7fc; text-align: center; margin-bottom: 16px; font-size: 1.08rem;}
-          .form-group { margin-bottom: 10px;}
-          .form-group label { color: #b2e7ff; font-size: 0.96rem; margin-bottom: 5px; font-weight: 500;}
-          .form-control {
-            width: 100%;
-            padding: 6.2px 11px;
-            font-size: 0.97rem;
-            border-radius: 8px;
-            background: rgba(33, 70, 120, 0.14);
-            color: #e6f4ff;
-            border: 1.07px solid #0abaff35;
-            box-sizing: border-box;
-          }
-          .form-control:focus {
-            border-color: #18d8fd;
-            background: rgba(75, 205, 255, 0.09);
-          }
-          .glass-login-field { margin-bottom: 12px; }
-          .glass-password-toggle {
-            position: absolute;
-            top: 50%;
-            right: 7px;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            border-radius: 7px;
-            box-shadow: 0 0 6px #12b3ff38, 0 1.5px 7px #20e8ff25;
-            transition: box-shadow 0.2s, border-color 0.18s;
-          }
-          .glass-password-toggle:focus { outline: 2px solid #12b3ff; }
-          .glass-password-toggle svg { display: block; }
-          .btn, .btn-primary, .btn-block {
-            width: 100%;
-            font-family: inherit;
-            font-size: 0.98rem;
-            font-weight: 700;
-            border: none;
-            outline: none;
-            cursor: pointer;
-            border-radius: 10px;
-            padding: 8.5px 0 7px 0;
-            background: linear-gradient(98deg, #26acff 5%, #3745f3 100%);
-            color: #f6feff;
-            box-shadow: 0 1px 7px #18c8ff33, 0 0 3px #2b5cff35;
-            letter-spacing: 1.1px;
-            margin-top: 10px;
-            transition: background 0.13s, box-shadow 0.11s, filter 0.13s;
-            position: relative;
-            z-index: 1;
-          }
-          .btn + .btn, .btn-block + .btn-block, .btn-primary + .btn-primary {
-            margin-top: 7px;
-          }
-          .btn:hover, .btn-primary:hover, .btn-block:hover {
-            background: linear-gradient(92deg, #35c5ff 0%, #2940e6 100%);
-            filter: brightness(1.055);
-            box-shadow: 0 5px 18px #17e3ff40, 0 0 12px #2b5cff77;
-          }
-          .btn:active, .btn-primary:active, .btn-block:active {
-            filter: brightness(0.98);
-            box-shadow: 0 2px 8px #008cff45;
-          }
-          .signup-link, .form-header p { color: #b2e7ff; }
-          .inline-link, .forgot-link {
-            background: none; border: none; color: #1ee1ff; text-decoration: underline; font-weight: 700; cursor: pointer; transition: color 0.16s;
-          }
-          .inline-link:hover, .forgot-link:hover { color: #eafdff; }
-          .error-message {
-            background: rgba(36, 0, 38, 0.65);
-            color: #fe4a7a;
-            border: 1px solid #fe4a7a55;
-            border-radius: 10px;
-            padding: 9px 14px;
-            margin-bottom: 8px;
-            text-align: center;
-          }
-          @media (max-width: 530px) {
-            .glass-login-card { padding: 11px 2.5vw 9px 2.5vw; min-width: 0; border-radius: 14px; }
-            .form-header h2 { font-size: 1.23rem;}
-            .form-header p { font-size: .93rem; }
-          }
-        `}</style>
+        }
+      `}</style>
       </motion.div>
     </div>
   );
 };
-
 
 export default Login;
